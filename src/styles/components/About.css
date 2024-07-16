@@ -1,0 +1,14 @@
+.about {
+    text-align: center;
+  }
+  
+  .about h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .about p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  

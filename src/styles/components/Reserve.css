@@ -1,0 +1,56 @@
+.reserve {
+    text-align: center;
+  }
+  
+  .reserve .react-calendar {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  .reserve .form-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .reserve .form-modal form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .reserve .form-modal label {
+    display: block;
+    margin: 10px 0 5px;
+  }
+  
+  .reserve .form-modal input,
+  .reserve .form-modal textarea,
+  .reserve .form-modal select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .reserve .form-modal button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .reserve .form-modal button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .reserve .form-modal button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+  }
+  
