@@ -14,18 +14,8 @@ const Reserve = () => {
     phone: '',
     service: '',
     rooms: [],
-    description: '',
-    origin: '',
-    destination: '',
-    details: ''
-  });
-  const [finalFormData, setFinalFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    service: '',
-    rooms: [],
+    roomsCount: {},
+    otherRoom: '',
     description: '',
     origin: '',
     destination: '',
@@ -34,12 +24,38 @@ const Reserve = () => {
 
   const handleDateChange = date => {
     setSelectedDate(date);
-    setFormStep(2); // Avanzar al paso 2 cuando se selecciona una fecha
+    setFormStep(2); 
   };
 
   const handleInputChange = e => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === 'checkbox') {
+      if (checked) {
+        setFormData(prevData => ({
+          ...prevData,
+          rooms: [...prevData.rooms, value]
+        }));
+      } else {
+        setFormData(prevData => ({
+          ...prevData,
+          rooms: prevData.rooms.filter(room => room !== value)
+        }));
+      }
+    } else {
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    }
+  };
+
+  const handleRoomCountChange = e => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prevData => ({
+      ...prevData,
+      roomsCount: { ...prevData.roomsCount, [name]: value }
+    }));
   };
 
   const handleFormSubmit = e => {
@@ -50,13 +66,6 @@ const Reserve = () => {
   };
 
   const handleNextStep = () => {
-    if (formStep === 1) {
-      setFinalFormData(formData);
-    } else if (formStep === 2) {
-      setFinalFormData(prevData => ({ ...prevData, ...formData }));
-    } else if (formStep === 3) {
-      setFinalFormData(prevData => ({ ...prevData, ...formData }));
-    }
     setFormStep(prevStep => prevStep + 1);
   };
 
@@ -67,44 +76,56 @@ const Reserve = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
 
-    // Añadir encabezado
-    doc.setFillColor(32, 178, 170); // Verde agua
+    doc.setFillColor(32, 178, 170); 
     doc.rect(0, 0, 210, 30, 'F');
-    doc.setTextColor(255, 255, 255); // Blanco
+    doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
     doc.text('Resumen de Cotización', 20, 20);
 
-    // Restablecer colores y tamaño de fuente
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(16);
 
-    // Datos Personales
     doc.text('Datos Personales:', 20, 50);
     doc.setFontSize(12);
-    doc.text(`Nombre: ${finalFormData.firstName} ${finalFormData.lastName}`, 20, 60);
-    doc.text(`Correo: ${finalFormData.email}`, 20, 70);
-    doc.text(`Teléfono: ${finalFormData.phone}`, 20, 80);
+    doc.text(`Nombre: ${formData.firstName} ${formData.lastName}`, 20, 60);
+    doc.text(`Correo: ${formData.email}`, 20, 70);
+    doc.text(`Teléfono: ${formData.phone}`, 20, 80);
 
-    // Datos del Transporte
+    if (selectedDate) {
+      const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      doc.text(`Fecha Seleccionada: ${formattedDate}`, 20, 90); // Incluir la fecha seleccionada en el PDF
+    }
+
     doc.setFontSize(16);
-    doc.text('Datos del Transporte:', 20, 100);
+    doc.text('Datos del Transporte:', 20, 110);
     doc.setFontSize(12);
-    doc.text(`Tipo de Servicio: ${finalFormData.service}`, 20, 110);
-    doc.text(`Habitaciones Seleccionadas: ${Array.isArray(finalFormData.rooms) ? finalFormData.rooms.join(', ') : ''}`, 20, 120);
-    doc.text(`Descripción: ${finalFormData.description}`, 20, 130);
+    doc.text(`Tipo de Servicio: ${formData.service}`, 20, 120);
+    if (formData.rooms.length > 0) {
+      const roomsText = formData.rooms.map(room => {
+        const count = formData.roomsCount[room] || 'N/A';
+        return `${room} (${count})`;
+      }).join(', ');
+      doc.text(`Habitaciones Seleccionadas: ${roomsText}`, 20, 130);
+    } else {
+      doc.text('Habitaciones Seleccionadas: Ninguna', 20, 130);
+    }
+    if (formData.otherRoom) {
+      doc.text(`Otro: ${formData.otherRoom}`, 20, 140);
+    }
+    doc.text(`Descripción: ${formData.description}`, 20, 150);
 
-    // Datos de Origen y Destino
     doc.setFontSize(16);
-    doc.text('Datos de Origen y Destino:', 20, 150);
+    doc.text('Datos de Origen y Destino:', 20, 170);
     doc.setFontSize(12);
-    doc.text(`Origen: ${finalFormData.origin}`, 20, 160);
-    doc.text(`Destino: ${finalFormData.destination}`, 20, 170);
-    doc.text(`Detalles: ${finalFormData.details}`, 20, 180);
+    doc.text(`Origen: ${formData.origin}`, 20, 180);
+    doc.text(`Destino: ${formData.destination}`, 20, 190);
+    doc.text(`Detalles: ${formData.details}`, 20, 200);
 
-    // Guardar el PDF
     doc.save('cotizacion.pdf');
   };
 
+
+  
   return (
     <main className="reserve">
       <Calendar onChange={handleDateChange} />
@@ -140,10 +161,33 @@ const Reserve = () => {
                 </select>
                 <div>
                   <label>Selecciona las habitaciones:</label>
-                  <div>
-                    <input type="checkbox" name="rooms" value="sala" onChange={handleInputChange} /> Sala
-                    <input type="checkbox" name="rooms" value="cocina" onChange={handleInputChange} /> Cocina
-                    {/* Agrega los demás checkboxes aquí */}
+                  <div className="checkbox-group">
+                    <div>
+                      <input type="checkbox" value="sala" onChange={handleInputChange} /> Sala
+                    </div>
+                    <div>
+                      <input type="checkbox" value="comedor" onChange={handleInputChange} /> Comedor
+                    </div>
+                    <div>
+                      <input type="checkbox" value="cocina" onChange={handleInputChange} /> Cocina
+                    </div>
+                    <div>
+                      <input type="checkbox" value="habitaciones" onChange={handleInputChange} /> Habitaciones
+                      <input type="number" name="habitaciones" onChange={handleRoomCountChange} placeholder="Número" />
+                    </div>
+                    <div>
+                      <input type="checkbox" value="oficina" onChange={handleInputChange} /> Oficina
+                    </div>
+                    <div>
+                      <input type="checkbox" value="lavanderia" onChange={handleInputChange} /> Lavandería
+                    </div>
+                    <div>
+                      <input type="checkbox" value="jardin" onChange={handleInputChange} /> Jardín
+                    </div>
+                    <div>
+                      <input type="checkbox" value="otro" onChange={handleInputChange} /> Otro
+                      <input type="text" name="otherRoom" onChange={handleInputChange} placeholder="Especificar" />
+                    </div>
                   </div>
                 </div>
                 <label>Descripción:</label>

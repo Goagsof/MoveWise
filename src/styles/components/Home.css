@@ -1,24 +1,86 @@
 .home {
-    text-align: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.home h3 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #87C3D9;
+}
+
+.home p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.home button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #2d6c8d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.banner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.image-card {
+  flex: 1;
+  max-width: 50%;
+}
+
+.text-card {
+  flex: 1;
+  max-width: 50%;
+}
+
+.card {
+  margin: 20px auto;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 64px;
+  text-align: center;
+  color: #193849;
+}
+.text-card .card-content {
+  text-align: left;
+}
+
+.text-card .card-content p {
+  color: #193849;
+}
+
+.text-card .card-content .highlight {
+  color: #87C3D9; 
+}
+
+
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
   }
-  
-  .home h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+
+  .image-card,
+  .text-card {
+    max-width: 100%;
   }
-  
-  .home p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-  
-  .home button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+}

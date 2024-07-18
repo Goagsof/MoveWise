@@ -1,56 +1,154 @@
 .reserve {
-    text-align: center;
-  }
-  
-  .reserve .react-calendar {
-    max-width: 90%;
-    margin: 0 auto;
-  }
-  
-  .reserve .form-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .reserve .form-modal form {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-  }
-  
-  .reserve .form-modal label {
-    display: block;
-    margin: 10px 0 5px;
-  }
-  
-  .reserve .form-modal input,
-  .reserve .form-modal textarea,
-  .reserve .form-modal select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .reserve .form-modal button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .reserve .form-modal button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .reserve .form-modal button[type="button"] {
-    background-color: #dc3545;
-    color: white;
-  }
-  
+  text-align: center;
+}
+
+.reserve .react-calendar {
+  max-width: 90%;
+  margin: 0 auto;
+  border: 1px solid #ccc; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.747); 
+  background-color: #ffffffc9; 
+  border-radius: 15px;
+  font-size: 20px; 
+}
+
+.reserve .react-calendar__navigation {
+  background-color: #2084b2; 
+  color: #fff; 
+  border-radius: 15px;
+}
+
+.reserve .react-calendar__navigation button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.reserve .react-calendar__navigation button:enabled:hover,
+.reserve .react-calendar__navigation button:enabled:focus {
+  background-color: #8ddefc; 
+  border-radius: 15px;
+}
+
+.reserve .react-calendar__month-view__days__day--neighboringMonth {
+  color: #ccc;
+}
+
+.reserve .react-calendar__tile--active {
+  background-color: #20b2aa; 
+  color: #fff;
+}
+
+.reserve .react-calendar__tile--active:enabled:hover,
+.reserve .react-calendar__tile--active:enabled:focus {
+  background-color: #0e8e87; 
+}
+
+.reserve .react-calendar__tile--now {
+  background-color: #f0f0f0; 
+}
+
+.reserve .react-calendar__tile--now:enabled:hover,
+.reserve .react-calendar__tile--now:enabled:focus {
+  background-color: #e0e0e0; 
+}
+
+
+.reserve .form-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh; 
+  background-color: rgba(29, 29, 29, 0.801); 
+  backdrop-filter: blur(8px); 
+  border-radius: 15px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
+.reserve .form-modal form {
+  position: relative;
+  background: #dcf6ff;
+  color: rgb(0, 0, 0);
+  padding: 50px;
+  border-radius: 15px;
+  width: 800px;
+  height: 450px;
+  max-width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reserve .form-modal form::before {
+  content: '';
+  position: absolute;
+  top: -10px; 
+  left: 0;
+  width: 100%;
+  height: 50px; 
+  background-color: #2D6C8D; 
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+
+.reserve .form-modal label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.reserve .form-modal input,
+.reserve .form-modal textarea,
+.reserve .form-modal select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.reserve .form-modal .button-group {
+  margin-top: auto; 
+  display: flex;
+  justify-content: space-between; 
+}
+
+.reserve .form-modal button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reserve .form-modal button[type="submit"] {
+  background-color: #88e9bc;
+  color: white;
+}
+
+.reserve .form-modal button[type="button"] {
+  background-color: #2D6C8D;
+  color: white;
+}
+
+.reserve .form-modal .checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.reserve .form-modal .checkbox-group div {
+  display: flex;
+  align-items: center;
+}
+
+.reserve .form-modal .checkbox-group input[type="number"] {
+  width: 60px;
+  margin-left: 5px;
+}
+
+.reserve .form-modal .checkbox-group input[type="text"] {
+  width: calc(100% - 60px);
+  margin-left: 5px;
+}
